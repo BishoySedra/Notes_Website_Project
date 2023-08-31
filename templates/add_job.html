@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'bootstrap_css.html' %}
+    <title>Adding New Job</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    {% include 'listen_flashes.html' %}
+    
+    <h2 class="text-center" style="padding-top: 30px;">Adding New Job</h2>
+    <div class="container">
+      <form class="row g-3" action="/admin/add-new-job" method="post">
+          <div class="col-md-6">
+            <label for="inputTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" required />
+          </div>
+          <div class="col-md-6">
+            <label for="inputLocation" class="form-label">Location</label>
+            <input type="text" class="form-control"  name="location" required />
+          </div>
+          <div class="col-md-6">
+            <label for="salary">Salary</label>
+            <input type="number" class="form-control" id="salery" name="salary" required />
+          </div>
+        <div class="col-12">
+          <label for="inputCurrency" class="form-label">Currency</label>
+          <input type="text" class="form-control"   name="currency" required />
+        </div>
+        <div class="col-12">
+          <label for="responsibilities" class="form-label">Responsibilities</label>
+          <textarea class="form-control" cols="20" rows="10"   name="responsibilities" required ></textarea>
+        </div>        
+        <div class="col-md-6">
+            <label for="requirements" class="form-label">Requirements</label>
+            <input type="text" class="form-control" placeholder="Format : req1,req2,req3" name="requirements" required />
+        </div>       
+        <br>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg" name="submit" style="margin-top: 20px;">Submit</button>
+        </div>
+      </form>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>

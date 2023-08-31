@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstrap_css.html' %}
+    <title>$title$ </title>
+    <style>
+        body{
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        footer{
+            margin-top: auto;
+        }
+      </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    {% include 'listen_flashes.html' %}
+    
+    <div class="container">
+        <img src="/static/images/work_from_home.jpg" alt="Working From Home" style="width: 400px;float: right;padding-top: 30px;">
+        <h2 class="text-center" style="color: rgb(120, 120, 120); margin-bottom: 4px;padding-top: 10px;">
+            $title$ 
+        </h2>
+        <div>
+            <h3>Responsibility: </h3>
+            {{job["responsibilities"]}}
+        </div><br>
+        <div>
+            <h3>Requirements: </h3> 
+            <ol>
+                {% for req in job['requirements'].split(',') %} 
+                <li>{{ req}}</li>
+                {% endfor %}
+            </ol>
+        </div><br>
+        <div>
+            <h3>Location: </h3> 
+            {{job['location']}}
+        </div><br>
+        {% if 'salary' in job %}
+            <div>
+                <h3>Salary: </h3> 
+                {{job['salary']}} {{job['currency']}}
+            </div><br>
+        {% endif %}
+        <div style="float: left;">
+            <a class="btn btn-outline-info float-right align-middle" href="/job/{{job['id']}}/apply">
+                Apply Now!
+            </a>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+</div> 
+    
+    
+</div>
+</body>
+</html>

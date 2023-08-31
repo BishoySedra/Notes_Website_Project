@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search job</title>
+    {% include 'bootstrap_css.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    {% include 'listen_flashes.html' %}
+    
+    <div class="container text-center" style="padding-top: 50px;">
+        <div class="col-12">
+            <h2 class="form-label">Result For <strong>{{job_name}} </strong></h2><br><br>
+            {% for job in jobs %}
+            <div class="container text-center">
+                <div class="row">
+                  <div class="col">
+                    <h3>Job Title </h3><br> {{ job['title']}}
+                  </div>
+                  <div class="col">
+                     <h3>Location</h3><br> {{job['location']}}
+                  </div>
+                  <div class="col">
+                      <h3>Salary</h3><br> {{job['salary']}} {{job['currency']}} 
+                  </div>
+                  <div class="col">
+                      <h3>Responsibilities</h3><br> {{job['responsibilities']}}
+                  </div>
+                  <div class="col">
+                    <h3>Requirements</h3><br> {{job['requirements']}}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+    </div>
+
+</body>
+</html>

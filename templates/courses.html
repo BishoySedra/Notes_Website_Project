@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    {% include 'bootstrap_css.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    <!-- In your home.html or any other template where you want to display the flashed messages -->
+    {% include 'listen_flashes.html' %}
+    
+    <h2 class="text-center mt-4" >Available Courses</h2>
+        {% for course in courses %}
+            {% include 'course_item.html' %}
+        {% endfor %}
+
+    {% include 'footer.html' %}
+</body>
+</html>

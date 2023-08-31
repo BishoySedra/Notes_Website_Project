@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'bootstrap_css.html' %}
+    <title>Login</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    {% include 'listen_flashes.html' %}
+    
+    <h2 class="text-center" style="padding-top: 30px;margin-bottom: 20px;">Login</h2>
+    <div class="container">
+      <form class="row g-3" action="/login" method="post">
+
+        <div class="col-md-6">
+            <label for="validationDefaultUsername" class="form-label">Username</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="inputGroupPrepend2">@</span>
+              <input type="text" class="form-control" id="validationDefaultUsername" name="username" aria-describedby="inputGroupPrepend2" required>
+            </div>  
+        </div>
+        <br>
+        <div class="col-md-6">
+            <label for="validationDefaultPassword" class="form-label">Password</label>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" name="password"  required/>
+            </div>  
+        </div>
+            
+        <div class="col-12 text-center">
+            <button style="margin-top: 20px;" type="submit" class="btn btn btn-success  btn-lg" name="login">Log in</button>       
+        </div>
+      </form>
+      <a class="text-center" href="/sign-up">Don't have an account ?</a>
+    </div>
+</body>
+</html>

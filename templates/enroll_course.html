@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'bootstrap_css.html' %}
+    <title>Enroll</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    {% include 'listen_flashes.html' %}
+
+    <h2 class="text-center" style="padding-top: 100px;margin-bottom: 20px;"><strong>Enroll for {{course['title']}}</strong></h2>
+    <div class="container">
+
+      <form class="row g-3" action="/courses/{{course['id']}}/enroll" method="post">
+
+        <div class="col-md-6">
+            <label for="card_name" class="form-label">Name on Card</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" name="card_name" placeholder="Lucious B. Byinshtuff" aria-describedby="inputGroupPrepend2" required>
+            </div>  
+        </div>
+        <br>
+        <div class="col-md-6">
+            <label for="card_number" class="form-label">Card Number</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control"  name="card_number"  placeholder="Number On Card" aria-describedby="inputGroupPrepend2" required>
+            </div>  
+        </div>
+        <br>
+        <div class="col-md-6">
+            <label for="card_number" class="form-label">EXP. Date</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control"  name="exp_date"  placeholder="MM/YY" aria-describedby="inputGroupPrepend2" required>
+            </div>  
+        </div>
+        <br>
+        <div class="col-md-6">
+            <label for="number" class="form-label">CVC</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="cvc"  placeholder="XXX"  required/>
+            </div>  
+        </div>
+        <div class="hidden_data">           
+                <input type="hidden" name="price" required value="{{course['price']}}"/>
+                <input type="hidden" name="currency" required value="{{course['currency']}}"/>
+        </div>              
+        <div class="col-12 text-center">
+            <button style="margin-top: 20px;" type="submit" class="btn btn btn-info  btn-lg" name="pay">Buy Now</button>       
+        </div>
+      </form>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

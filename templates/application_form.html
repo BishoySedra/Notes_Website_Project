@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'bootstrap_css.html' %}
+    <title>Application Form </title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'banner.html' %}
+    {% include 'listen_flashes.html' %}
+    
+    <h2 class="text-center" style="padding-top: 30px;">Application Form</h2>
+    <div class="container">
+      <form class="row g-3" action="/job/{{job['id']}}/apply" method="post" enctype="multipart/form-data">
+        <div class="input-group" style="margin-bottom:20px;">
+            <span class="input-group-text">First and Last Name</span>
+            <input type="text" aria-label="First name" class="form-control" name="firstname" required />
+            <input type="text" aria-label="Last name" class="form-control" name="lastname" required />
+        </div>
+          <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <input type="text" class="form-control" name="city" required />
+          </div>
+          <div class="col-md-6">
+            <label for="inputEmail" class="form-label">Email</label>
+            <input type="email" class="form-control"  name="email" required />
+          </div>
+          <div class="col-md-6">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{11}" required />
+          </div>
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">Address</label>
+          <input type="text" class="form-control"  placeholder="1234 Main St" name="address" required />
+        </div>
+        <div class="col-12">
+          <label for="Education_Experience" class="form-label">Education</label>
+          <textarea class="form-control" cols="20" rows="4"   name="edu_experience" required ></textarea>
+          <label for="Work_Experience" class="form-label">Work Experience</label>
+          <textarea class="form-control" cols="20" rows="4"   name="work_experience" required ></textarea>
+        </div>
+            
+        <div class="col-md-6">
+            <label for="basic-url" class="form-label">LinkedIn URL</label>
+            <input type="url" class="form-control"  name="linkedin_url" required />
+        </div>
+            
+        <div class="col-md-6">
+            <label class="form-label">CV</label>
+            <input type="file" accept="image/*" class="form-control"  name="cv" required />
+        </div>
+            
+          </div>
+        <br>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg" name="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

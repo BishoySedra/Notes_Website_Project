@@ -1,0 +1,22 @@
+<div class="border-buttom row" style="margin-bottom: 16px;padding-bottom: 8px;">
+    <div class="container">
+        <div class="col-10">
+            <h4 style="color: rgb(120, 120, 120); margin-bottom: 4px;">
+                {{course['title']}}
+            </h4>       
+                <div>
+                    <b>Price: </b>{{course['price']}} {{course['currency']}}
+                </div>
+                <img src="/static/images/course.jpg" alt="course" style="float:right; height:200px;border-radius: 10px;" >       
+        </div>
+        <div class="col-2"><br><br><br>
+            <a class="btn btn-outline-info float-left align-middle"  style="margin-bottom: 10px;" href="/courses/{{course['id']}}/content">
+                View Course
+            </a>
+            
+            <a class="btn btn-outline-info float-left align-middle" href="/courses/{{course['id']}}/enroll">
+                Enroll Now!
+            </a>
+        </div>
+    </div>
+</div>

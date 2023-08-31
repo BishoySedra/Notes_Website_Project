@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    {% include 'bootstrap_css.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'listen_flashes.html' %}
+    
+    <div class="container">
+        <form action="/courses/{{course['id']}}/content" method="post">           
+            <h1 class="text-center mt-4" style="padding-top: 50px;" ><strong>{{course['title']}}</strong></h1>
+            <div class="text-center">
+                <img  src="/static/images/course_content.jpg" alt="course" style="height:500px;width: 700px;border-radius: 10px;">
+            </div>
+            <div class="col-12">
+                <h2 style="padding-top: 30px;" for="Education_Experience" class="form-label"><strong>Add Your Review Here</strong></h2>
+                <textarea class="form-control" cols="20" rows="3"  name="review"> 
+                 
+                </textarea>
+                {% if review %}
+                    <div class="text-center">
+                        <h3 class="form-text">
+                            Your review : {{review}}
+                        </h3>   
+                    </div>
+                {% endif %}
+                <div class="text-center" style="padding-top: 20px;">
+    
+                    <button class="btn btn-secondary btn-lg " type="submit">Submit</button>
+                </div>
+                <br><br>
+                <h3>All Reviews</h3>
+                {% for review in reviews %}
+                <h4 class="form-control"  name="review">{{review}}</h4> 
+                {% endfor %}
+                <input type="hidden" name="user_id" value="{{user_id}}"/>
+            </div> 
+        </form>
+    </div>     
+    {% include 'footer.html' %}
+</body>
+</html>

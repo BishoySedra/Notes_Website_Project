@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'bootstrap_css.html' %}
+    <title>Registration</title>
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+     {% include 'banner.html' %} 
+     {% include 'listen_flashes.html' %}
+
+    <h2 class="text-center" style="padding-top: 30px; margin-bottom: 20px">
+      Registration Account
+    </h2>
+    <div class="container">
+      <form class="row g-3" action="/sign-up" method="post">
+        <div class="col-md-6">
+          <label for="inputEmail" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="inputEmail"
+            name="email"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="validationDefaultUsername" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+            <input
+              type="text"
+              class="form-control"
+              id="validationDefaultUsername"
+              name="username"
+              aria-describedby="inputGroupPrepend2"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="password1">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password1"
+            id="password1"
+            required
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="password2">Password (Confirm)</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password2"
+            id="password2"
+            placeholder="Confirm password"
+            required
+          />
+        </div>
+        <br />
+        <div class="col-12 text-center">
+          <button
+            style="margin-top: 20px; margin-bottom:20px;"
+            type="submit"
+            class="btn btn btn-success btn-lg"
+            name="submit"
+          >
+            Sign Up
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
