@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'bootstrap_css.html' %}
+    <title>Plans</title>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    <br><br>
+
+    {% if plans %}
+    <h2 class="text-center mt-4">Available Plans</h2>
+    {% for plan in plans %}
+    <div class="card mb-4" style="margin: 40px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10">
+                    <h4 class="text-muted mb-2">{{plan[1]}}</h4>
+                    <div><strong>Price:</strong> {{plan[2]}}$</div>
+                    <div name="description">{{plan[3]}}</div>
+                </div>
+                <div class="col-2">
+                    <br>
+                    <a href="" class="btn btn-info btn-block mt-3">Buy Plan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <br>
+    <h1 style="text-align: center;">No Plans Available</h1>
+    {% endif %}
+
+</body>
+
+</html>

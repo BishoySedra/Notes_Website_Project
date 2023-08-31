@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% include 'bootstrap_css.html' %}
     <title>Login</title>
 </head>
 <body>
     {% include 'navbar.html' %}
-    {% include 'banner.html' %}
     {% include 'listen_flashes.html' %}
-    
-    <h2 class="text-center" style="padding-top: 30px;margin-bottom: 20px;">Login</h2>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div>
+      <h2 class="text-center" style="padding-top: 30px;margin-bottom: 20px;">Login</h2>
+    </div>
     <div class="container">
       <form class="row g-3" action="/login" method="post">
 
@@ -34,7 +36,7 @@
             <button style="margin-top: 20px;" type="submit" class="btn btn btn-success  btn-lg" name="login">Log in</button>       
         </div>
       </form>
-      <a class="text-center" href="/sign-up">Don't have an account ?</a>
+      <a class="text-center" style="color: black; text-decoration:underline" href="/sign-up">Don't have an account ?</a>
     </div>
 </body>
 </html>

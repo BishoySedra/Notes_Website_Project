@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstrap_css.html' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+
+    <title>Your Notes</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'listen_flashes.html' %}
+    <br>
+    <br>
+    <div class="row justify-content-center" style="margin: 20px;">
+        {% if notes %}
+            {% for note in notes %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                    {% if note[5] %}
+                    <img src="{{ url_for('static', filename=note[5]) }}" alt="" class="card-img-top" height="150">
+                    {% else %}
+                    <img src="https://cdn.discordapp.com/attachments/1141000258554437672/1146849027300798545/image.png" alt="Default Image" class="card-img-top" height="150">
+                    {% endif %}
+                    <div class="card-body" style="text-align: center;">
+                        <h5 class="card-title">{{ note[2] }}</h5>
+                        <p class="card-text">{{ note[3] }}</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        {% else %}
+        <h1>No Notes Found!</h1>
+        {% endif %}
+    </div>
+
+</body>
+</html>

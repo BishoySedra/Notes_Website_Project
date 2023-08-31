@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include 'bootstrap_css.html' %}
+    <title>Adding New Plan</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% include 'includes/alert.html' %}
+    {% include 'listen_flashes.html' %}
+    <br><br>
+    <h2 class="text-center" style="padding-top: 30px;">Adding New Plan</h2>
+    <div class="container">
+      <form class="row g-3" action="/admin/add-new-plan" method="post">
+        <div class="col-md-6">
+            <label for="inputTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" required />
+        </div>
+        <div class="col-md-6">
+            <label for="inputPrice" class="form-label">Price</label>
+            <input type="number" class="form-control" id="inputPrice" name="price" required />
+        </div>
+        <div class="col-12">
+            <label for="inputDescription" class="form-label">Description</label>
+            <textarea class="form-control" rows="5" name="description" required></textarea>
+        </div>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-success btn-lg mt-3" name="submit">Submit</button>
+        </div>
+    </form>
+    
+    </div>
+</body>
+</html>

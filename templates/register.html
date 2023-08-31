@@ -3,14 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% include 'bootstrap_css.html' %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}" />
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3075/3075908.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
     <title>Registration</title>
   </head>
   <body>
     {% include 'navbar.html' %}
-     {% include 'banner.html' %} 
      {% include 'listen_flashes.html' %}
-
+    <br>
+    <br>
+    <br>
     <h2 class="text-center" style="padding-top: 30px; margin-bottom: 20px">
       Registration Account
     </h2>

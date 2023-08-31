@@ -3,6 +3,8 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
 from db.connection import *
+from helpers.directory import *
+from helpers.fileUploadRestrictions import *
 from helpers.passwordPolicies import *
 
 app = Flask(__name__)
@@ -20,10 +22,11 @@ limiter = Limiter(
 
 @app.route("/")
 def home():
-    if "username" not in session:
-        flash("You're not logged in!!", "danger")
-        return redirect(url_for("login"))
-    return render_template("index.html")
+    if "username" in session:
+        user_id = session["user_id"]
+        return render_template("index.html", username=session["username"])
+    flash("You're not logged in!")
+    return redirect(url_for("login"))
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -77,6 +80,80 @@ def register():
     return redirect(url_for("login"))
 
 
+@app.route("/upload-note", methods=["GET", "POST"])
+def UploadNote():
+    if request.method == "POST":
+        category = request.form["category"]
+        image = request.files["image"]
+        content = request.form["content"]
+        user_id = session["user_id"]
+
+        if image:
+            if not allowed_file_size(image) or not allowed_file_extension(
+                image.filename
+            ):
+                flash("Invalid Image uploaded!!", "danger")
+                return render_template("UploadNote.html")
+
+            image_url = f"uploads/{image.filename}"
+            image.save(f"static/{image_url}")
+
+            add_note(user_id, category, content, image_url)
+
+            flash("Your Note Uploaded Successfully ", "success")
+
+            return redirect(url_for("MyNotes"))
+
+        add_note(user_id, category, content)
+
+        flash("Your Note Uploaded Successfully ", "success")
+
+        return redirect(url_for("MyNotes"))
+    else:
+        if not "user_id" in session:
+            flash("Please Login to do this action", "danger")
+            return redirect(url_for("login"))
+    return render_template("UploadNote.html")
+
+
+@app.route("/my-notes")
+def MyNotes():
+    if "user_id" in session:
+        return render_template("notes.html", notes=get_all_notes(session["user_id"]))
+    flash("You're not logged in!")
+    return redirect(url_for("login"))
+
+
+@app.route("/plans")
+def PlansPage():
+    if "username" in session:
+        return render_template("plans.html", plans=get_all_plans())
+    flash("You're not logged in!")
+    return redirect(url_for("login"))
+
+
+@app.route("/admin/add-new-plan", methods=["POST", "GET"])
+def AddNewPlan():
+    if session["username"] == "admin" and session["user_id"] == 1:
+        if request.method == "POST":
+            title = request.form["title"]
+            price = request.form["price"]
+            description = request.form["description"]
+
+            add_plan(title, price, description)
+
+            flash("New plan Added Successfully!", "success")
+            return render_template("add_plan.html")
+
+        return render_template("add_plan.html")
+
+    flash("You're not allowed to take this action!")
+    return redirect(url_for("home"))
+
+
 if __name__ == "__main__":
+    if not is_directory_exist("static/uploads"):
+        create_directory("static/uploads")
     init_db()
+    create_admin()
     app.run(debug=True)
