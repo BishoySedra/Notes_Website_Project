@@ -1,6 +1,6 @@
 import os
 
-max_size = 1024 * 1024 * 10  # 12 MB
+max_size = 1024 * 1024 * 10  # 10 MB
 allowed_extensions = {"jpg", "png", "jpeg", "gif"}
 
 

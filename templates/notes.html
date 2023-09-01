@@ -8,7 +8,7 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    {% include 'listen_flashes.html' %}
+    {% include 'includes/alert.html' %}
     <br>
     <br>
     <div class="row justify-content-center" style="margin: 20px;">
@@ -22,7 +22,9 @@
                     <img src="https://cdn.discordapp.com/attachments/1141000258554437672/1146849027300798545/image.png" alt="Default Image" class="card-img-top" height="150">
                     {% endif %}
                     <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">{{ note[2] }}</h5>
+                        <!-- title -->
+                        <h2 class="card-title" style="text-align: center;">Title: {{ note[2] }}</h2>
+                        <!-- content -->
                         <p class="card-text">{{ note[3] }}</p>
                     </div>
                 </div>

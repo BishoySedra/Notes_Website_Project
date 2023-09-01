@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -10,22 +12,23 @@ from helpers.passwordPolicies import *
 app = Flask(__name__)
 
 # strong secret key => prevent brute-forcing & cookies attacks
-app.config["SECRET_KEY"] = "sahdgjkshgdjkhsakjdhkasjhdkj"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 # rate limiter =>
 # to prevent brute-forcing attack on specific routes that
 # attacker can attack on it
 limiter = Limiter(
-    get_remote_address, app=app, default_limits=["150 per day", "70 per hour"]
+    get_remote_address, app=app, default_limits=["200 per day", "50 per hour"]
 )
+
 
 
 @app.route("/")
 def home():
     if "username" in session:
-        user_id = session["user_id"]
         return render_template("index.html", username=session["username"])
-    flash("You're not logged in!")
+    
+    flash("You're not logged in!", "danger")
     return redirect(url_for("login"))
 
 
@@ -83,6 +86,7 @@ def register():
 @app.route("/upload-note", methods=["GET", "POST"])
 def UploadNote():
     if request.method == "POST":
+
         category = request.form["category"]
         image = request.files["image"]
         content = request.form["content"]
@@ -110,9 +114,15 @@ def UploadNote():
 
         return redirect(url_for("MyNotes"))
     else:
+
         if not "user_id" in session:
-            flash("Please Login to do this action", "danger")
+            flash("Please Login to do this action!", "danger")
             return redirect(url_for("login"))
+        
+        if not get_purchases_by_user_id(session["user_id"]) and session["user_id"] != 1:
+            flash("Please purchase a plan to add your notes!", "danger")
+            return redirect(url_for("PlansPage"))
+        
     return render_template("UploadNote.html")
 
 
@@ -120,17 +130,18 @@ def UploadNote():
 def MyNotes():
     if "user_id" in session:
         return render_template("notes.html", notes=get_all_notes(session["user_id"]))
-    flash("You're not logged in!")
+    flash("You're not logged in!", "danger")
     return redirect(url_for("login"))
 
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
-    # if  "user_id" in session:
+
     if request.method == "POST":
         title = request.form["job_name"]
         user_id = session["user_id"]
         if title:
+            # solve IDOR to access specific user_id with his notes
             return render_template(
                 "notes.html", notes=get_note_by_title(user_id, title)
             )
@@ -142,8 +153,6 @@ def search():
             return redirect(url_for("login"))
         return redirect(url_for("home"))
 
-        # return render_template("notes.html", notes=get_all_notes(session["user_id"]))
-
 
 @app.route("/plans")
 def PlansPage():
@@ -152,9 +161,10 @@ def PlansPage():
     flash("You're not logged in!")
     return redirect(url_for("login"))
 
-
+# user & admin hierarchy
 @app.route("/admin/add-new-plan", methods=["POST", "GET"])
 def AddNewPlan():
+    # Idor Solution
     if session["username"] == "admin" and session["user_id"] == 1:
         if request.method == "POST":
             title = request.form["title"]
@@ -174,27 +184,47 @@ def AddNewPlan():
 
 @app.route("/buy-plan/<plan_id>", methods=["POST", "GET"])
 def buy_plan(plan_id):
+
+    user_id = session["user_id"]
+
     if "user_id" not in session:
         flash("You're not logged in!", "danger")
         return redirect(url_for("login"))
 
-    user_id = session["user_id"]
-
     if request.method == "GET":
+
         if not get_plan_by_id(plan_id):
             flash("There is no plan with this id", "danger")
             return redirect(url_for("PlansPage"))
-        elif user_id in get_purchases(plan_id):
+        
+        users_purchases=get_purchases(plan_id,user_id)
+
+        flash(len(users_purchases))
+
+        if len(users_purchases):
             flash("You've already purchased this plan!", "danger")
             return redirect(url_for("PlansPage"))
         else:
             return render_template("buy_plan.html", plan_id=plan_id)
+        
     else:
-        if user_id in get_purchases(plan_id):
-            flash("You've already purchased this plan!", "danger")
+
+        users_purchases = get_purchases(plan_id,user_id)
+
+        flash(len(users_purchases))
+
+        if  len(users_purchases):
+
+            flash(f"You've already purchased this plan!", "danger")
+            return redirect(url_for("PlansPage"))
+        
         else:
+
             add_purchase(user_id, plan_id)
-            flash("Purchase was successful!", "success")
+
+            plan_data = get_plan_by_id(plan_id)
+
+            flash(f"Successfully purchased by {plan_data[2]}$!", "success")
 
     return redirect(url_for("PlansPage"))
 

@@ -24,7 +24,6 @@ def init_db():
         user_id INTEGER NOT NULL,
         title VARCHAR(255) NOT NULL,
         content TEXT NOT NULL,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         image_url TEXT DEFAULT NULL,
         FOREIGN KEY (user_id) REFERENCES Users(id)
         );
@@ -101,15 +100,25 @@ def add_purchase(user_id, plan_id):
     connection.commit()
 
 
-def get_purchases(plan_id):
+def get_purchases(plan_id,user_id):
     connection = connectDB()
     query = """
-            select user_id from UserPlans where plan_id = ?
+            select user_id ,plan_id from UserPlans where plan_id = ? AND user_id=?
             """
     cursor = connection.cursor()
-    cursor.execute(query, (plan_id,))
+    cursor.execute(query, (plan_id,user_id))
+    connection.commit()
     return cursor.fetchall()
 
+def get_purchases_by_user_id(user_id):
+    connection = connectDB()
+    query = """
+            select plan_id from UserPlans where user_id = ?
+            """
+    cursor = connection.cursor()
+    cursor.execute(query, (user_id,))
+    connection.commit()
+    return cursor.fetchall()
 
 def get_all_plans():
     connection = connectDB()
@@ -118,7 +127,9 @@ def get_all_plans():
     """
     cursor = connection.cursor()
     cursor.execute(query)
+    connection.commit()
     return cursor.fetchall()
+    
 
 
 def add_plan(title, price, description):
