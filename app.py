@@ -124,6 +124,27 @@ def MyNotes():
     return redirect(url_for("login"))
 
 
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    # if  "user_id" in session:
+    if request.method == "POST":
+        title = request.form["job_name"]
+        user_id = session["user_id"]
+        if title:
+            return render_template(
+                "notes.html", notes=get_note_by_title(user_id, title)
+            )
+        flash("Search value is empty!!", "danger")
+        return redirect(url_for("MyNotes"))
+
+    else:
+        if not "user_id" in session:
+            return redirect(url_for("login"))
+        return redirect(url_for("home"))
+
+        # return render_template("notes.html", notes=get_all_notes(session["user_id"]))
+
+
 @app.route("/plans")
 def PlansPage():
     if "username" in session:
@@ -149,6 +170,33 @@ def AddNewPlan():
 
     flash("You're not allowed to take this action!")
     return redirect(url_for("home"))
+
+
+@app.route("/buy-plan/<plan_id>", methods=["POST", "GET"])
+def buy_plan(plan_id):
+    if "user_id" not in session:
+        flash("You're not logged in!", "danger")
+        return redirect(url_for("login"))
+
+    user_id = session["user_id"]
+
+    if request.method == "GET":
+        if not get_plan_by_id(plan_id):
+            flash("There is no plan with this id", "danger")
+            return redirect(url_for("PlansPage"))
+        elif user_id in get_purchases(plan_id):
+            flash("You've already purchased this plan!", "danger")
+            return redirect(url_for("PlansPage"))
+        else:
+            return render_template("buy_plan.html", plan_id=plan_id)
+    else:
+        if user_id in get_purchases(plan_id):
+            flash("You've already purchased this plan!", "danger")
+        else:
+            add_purchase(user_id, plan_id)
+            flash("Purchase was successful!", "success")
+
+    return redirect(url_for("PlansPage"))
 
 
 if __name__ == "__main__":

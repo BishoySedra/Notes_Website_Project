@@ -38,12 +38,24 @@ def init_db():
         );
     """
 
+    users_plans_table = """
+        CREATE TABLE IF NOT EXISTS UserPlans (
+        user_plan_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        plan_id INTEGER,
+        PurchaseDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES Users(id),
+        FOREIGN KEY (plan_id) REFERENCES Plans(id)
+        );
+    """
+
     cursor = connection.cursor()
 
     # creating tables execution
     cursor.execute(users_table)
     cursor.execute(notes_table)
     cursor.execute(plans_table)
+    cursor.execute(users_plans_table)
 
     # save changes on database
     connection.commit()
@@ -52,18 +64,51 @@ def init_db():
 def create_admin():
     connection = connectDB()
 
-    # create admin user
-    admin_creation = """
-        INSERT INTO users(username, password, email) VALUES(?, ?, ?)
+    if not get_user_by_username("admin"):
+        # create admin user
+        admin_creation = """
+            INSERT INTO users(username, password, email) VALUES(?, ?, ?)
+        """
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            admin_creation, ("admin", hash_password("Admin@123"), "admin@gmail.com")
+        )
+
+        connection.commit()
+    else:
+        print("Admin already existed!")
+
+
+def get_plan_by_id(plan_id):
+    connection = connectDB()
+    query = """
+    SELECT * FROM plans where id = ?
     """
-
     cursor = connection.cursor()
+    cursor.execute(query, (plan_id))
+    return cursor.fetchone()
 
-    cursor.execute(
-        admin_creation, ("admin", hash_password("Admin@123"), "admin@gmail.com")
-    )
 
+def add_purchase(user_id, plan_id):
+    connection = connectDB()
+    query = """
+        INSERT INTO UserPlans(user_id,plan_id) VALUES(?, ?)
+        """
+    cursor = connection.cursor()
+    cursor.execute(query, (user_id, plan_id))
     connection.commit()
+
+
+def get_purchases(plan_id):
+    connection = connectDB()
+    query = """
+            select user_id from UserPlans where plan_id = ?
+            """
+    cursor = connection.cursor()
+    cursor.execute(query, (plan_id,))
+    return cursor.fetchall()
 
 
 def get_all_plans():
@@ -138,4 +183,13 @@ def get_all_notes(user_id):
     """
     cursor = connection.cursor()
     cursor.execute(query, (user_id,))
+    return cursor.fetchall()
+
+
+def get_note_by_title(user_id, title):
+    connection = connectDB()
+    query = """ select * FROM NOTES WHERE (user_id=? and title=? )  """
+
+    cursor = connection.cursor()
+    cursor.execute(query, (user_id, title))
     return cursor.fetchall()

@@ -8,6 +8,7 @@
 
 <body>
     {% include 'navbar.html' %}
+    {% include 'includes/alert.html' %}
     <br><br>
 
     {% if plans %}
@@ -23,7 +24,7 @@
                 </div>
                 <div class="col-2">
                     <br>
-                    <a href="" class="btn btn-info btn-block mt-3">Buy Plan</a>
+                    <a href="/buy-plan/{{plan[0]}}" class="btn btn-info btn-block mt-3">Buy Plan</a>
                 </div>
             </div>
         </div>
