@@ -1,9 +1,7 @@
 import os
 
-
 def is_directory_exist(directory_path):
     return os.path.exists(directory_path)
-
 
 def create_directory(directory_path):
     try:

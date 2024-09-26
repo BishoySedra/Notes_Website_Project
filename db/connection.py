@@ -1,11 +1,8 @@
 import sqlite3
-
 from helpers.hashing import *
-
 
 def connectDB():
     return sqlite3.connect("db/database.db")
-
 
 def init_db():
     connection = connectDB()
@@ -59,7 +56,6 @@ def init_db():
     # save changes on database
     connection.commit()
 
-
 def create_admin():
     connection = connectDB()
 
@@ -79,7 +75,6 @@ def create_admin():
     else:
         print("Admin already existed!")
 
-
 def get_plan_by_id(plan_id):
     connection = connectDB()
     query = """
@@ -89,7 +84,6 @@ def get_plan_by_id(plan_id):
     cursor.execute(query, (plan_id))
     return cursor.fetchone()
 
-
 def add_purchase(user_id, plan_id):
     connection = connectDB()
     query = """
@@ -98,7 +92,6 @@ def add_purchase(user_id, plan_id):
     cursor = connection.cursor()
     cursor.execute(query, (user_id, plan_id))
     connection.commit()
-
 
 def get_purchases(plan_id,user_id):
     connection = connectDB()
@@ -130,8 +123,6 @@ def get_all_plans():
     connection.commit()
     return cursor.fetchall()
     
-
-
 def add_plan(title, price, description):
     connection = connectDB()
 
@@ -145,7 +136,6 @@ def add_plan(title, price, description):
     cursor.execute(addingQuery, (title, price, description))
 
     connection.commit()
-
 
 def add_user(username, password, email):
     connection = connectDB()
@@ -161,7 +151,6 @@ def add_user(username, password, email):
 
     connection.commit()
 
-
 def get_user_by_username(username):
     connection = connectDB()
 
@@ -175,7 +164,6 @@ def get_user_by_username(username):
 
     return cursor.fetchone()
 
-
 def add_note(user_id, category, content, image=""):
     connection = connectDB()
     query = """
@@ -186,7 +174,6 @@ def add_note(user_id, category, content, image=""):
 
     connection.commit()
 
-
 def get_all_notes(user_id):
     connection = connectDB()
     query = """
@@ -195,7 +182,6 @@ def get_all_notes(user_id):
     cursor = connection.cursor()
     cursor.execute(query, (user_id,))
     return cursor.fetchall()
-
 
 def get_note_by_title(user_id, title):
     connection = connectDB()
